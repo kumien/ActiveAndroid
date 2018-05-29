@@ -37,7 +37,8 @@ public final class From implements Sqlable {
 	private final StringBuilder mWhere = new StringBuilder();
 	private String mGroupBy;
 	private String mHaving;
-	private String mOrderBy;
+    private String mOrderBy;
+    private OrderType mOrderType;
 	private String mLimit;
 	private String mOffset;
 
@@ -133,9 +134,14 @@ public final class From implements Sqlable {
 	}
 
 	public From orderBy(String orderBy) {
-		mOrderBy = orderBy;
-		return this;
-	}
+		return orderBy(orderBy, OrderType.ASC);
+    }
+    
+    public From orderBy(String orderBy, OrderType type) {
+        mOrderBy = orderBy;
+        mOrderType = type;
+        return this;
+    }
 
 	public From limit(int limit) {
 		return limit(String.valueOf(limit));
@@ -209,6 +215,7 @@ public final class From implements Sqlable {
         if (mOrderBy != null) {
             sql.append("ORDER BY ");
             sql.append(mOrderBy);
+            sql.append(mOrderType.name());
             sql.append(" ");
         }
     }
@@ -342,5 +349,9 @@ public final class From implements Sqlable {
 		}
 
 		return args;
-	}
+    }
+    
+    public enum OrderType {
+        ASC, DESC
+    }
 }
