@@ -216,8 +216,6 @@ public final class From implements Sqlable {
             sql.append("ORDER BY ");
             sql.append(mOrderBy);
             sql.append(" ");
-            sql.append(mOrderType.name());
-            sql.append(" ");
         }
     }
 
